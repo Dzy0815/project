@@ -1,0 +1,158 @@
+<!--create.ejs-->
+
+
+
+<style>
+    .location {
+        display: flex;
+        padding-right: 30px;
+    }
+
+    .quotacoin {
+        display: flex;
+    }
+</style>
+
+<form action="/restaurant/create" method="post">
+
+    <div class="columns">
+        <div class="column is-half">
+            <div class="field">
+                <label class="label">Title</label>
+                <div class="control">
+                    <input class="input" type="text" name="title" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Restaurant</label>
+                <div class="control">
+                    <input class="input" type="text" name="restaurant" required>
+                </div>
+            </div>
+
+            <div class="location">
+                <div class="field">
+                    <label class="label">Region</label>
+                    <div class="select">
+                        <select id="region" name="region" onchange="regionselected(this.value)">
+                            <option value="">region</option>
+                            <option value="Kowloon">Kowloon</option>
+                            <option value="HK Island">HK Island</option>
+                            <option value="New Territories">New Territories</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Mall</label>
+                    <div class="select">
+                        <select id="mall" name="mall" disabled>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="field">
+                <label class="label">Image</label>
+                <div class="control">
+                    <input class="input" type="text" name="image" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="column is-half">
+            <div class="quotacoin">
+
+
+                <div class="field">
+                    <label class="label">quota</label>
+                    <div class="control">
+                        <input class="input" type="number" name="quota" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">coins</label>
+                    <div class="control">
+                        <input class="input" type="number" name="coins" required>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="field">
+                <label class="label">Expiary Date</label>
+                <div class="control">
+                    <input class="input" type="string" name="expiarydate" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Details</label>
+                <div class="control">
+                    <textarea class="textarea" rows="4"></textarea>
+                </div>
+
+            </div>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-link" type="submit">Submit</button>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+
+    </form>
+
+    <script>
+        var HKIsland = ["IFC Mall", "Pacific Place", "Times Square"];
+        var Kowloon = ["Elements", "Harbour City", "Festval Walk", "MegaBox", "APM"];
+        var NewTerriotries = ["New Town Plazza", "Tsuen Wan Plaza"]
+
+        function regionselected(region) {
+            //alert(region);
+
+            var mallElem = document.getElementById("mall");
+            mallElem.options.length = 0;
+            if (region == "HK Island") {
+
+                HKIsland.forEach(function (item) {
+                    var option = document.createElement("option");
+                    option.text = item;
+                    option.value = item;
+                    mallElem.add(option);
+                });
+
+                mallElem.disabled = false;
+
+            } else if (region == "Kowloon") {
+
+                Kowloon.forEach(function (item) {
+                    var option = document.createElement("option");
+                    option.text = item;
+                    option.value = item;
+                    mallElem.add(option);
+                });
+
+                mallElem.disabled = false;
+
+            } else if (region == "New Territories") {
+                NewTerriotries.forEach(function (item) {
+                    var option = document.createElement("option");
+                    option.text = item;
+                    option.value = item;
+                    mallElem.add(option);
+                });
+
+                mallElem.disabled = false;
+
+            } else {
+                mallElem.disabled = false;
+            }
+        }
+    </script>

@@ -1,0 +1,170 @@
+<!--update.ejs-->
+
+
+
+<style>
+    .location {
+        display: flex;
+    }
+
+    .quotacoin {
+        display: flex;
+    }
+</style>
+
+<form action="/restaurant/update/<%= restaurant.id %>" method="post">
+
+    <div class="column">
+        <div class="column is-half">
+            <div class="field">
+                <label class="label">Title</label>
+                <div class="control">
+                    <input class="input" type="text" name="title" value="<%= restaurant.title%>" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Restaurant</label>
+                <div class="control">
+                    <input class="input" type="text" name="restaurant" value="<%= restaurant.restaurant%>" required>
+                </div>
+            </div>
+
+            <div class="location">
+                <div class="field">
+                    <label class="label">Region</label>
+                    <div class="select">
+                        <select id="region" name="region" value="<%= restaurant.region%>"
+                            onchange="regionselected(this.value)">
+                            <option value="">Select the reataurant region here.</option>
+                            <option value="Kowloon">Kowloon</option>
+                            <option value="HK Island">HK Island</option>
+                            <option value="New Territories">New Territories</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Mall</label>
+                    <div class="select">
+                        <select id="mall" name="mall" value="<%= restaurant.mall%>" disabled>
+                            <!-- <option value="IFC mall">IFC Mall</option>
+                        <option value="Pacific Palace">Pacific Palace</option>
+                        <option value="Times Square">Times square</option>
+                        <option value="Elements">Elements</option>
+                        <option value="Harbour City">Harbour City</option>
+                        <option value="Festival Walk">Festival Walk</option>
+                        <option value="MegaBox">MegaBox</option>
+                        <option value="APM">APM</option>
+                        <option value="New Town Plaza">New Town Plaza</option>
+                        <option value="Tsuen Wan Plaza">Tsuen Wan Plaza</option> -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="field">
+                <label class="label">Image</label>
+                <div class="control">
+                    <input class="input" type="text" name="image" value="<%= restaurant.image%>" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="column is-half">
+            <div class="quotacoin">
+
+
+                <div class="field">
+                    <label class="label">quota</label>
+                    <div class="control">
+                        <input class="input" type="number" name="quota" value="<%= restaurant.quota%>" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">coins</label>
+                    <div class="control">
+                        <input class="input" type="number" name="coins" value="<%= restaurant.coins%>" required>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="field">
+                <label class="label">Expiary Date</label>
+                <div class="control">
+                    <input class="input" type="string" name="expiarydate" value="<%= restaurant.expirarydate%>"
+                        required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Details</label>
+                <div class="control">
+                    <textarea class="textarea" rows="4" value="<%= restaurant.details%>"></textarea>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-link" type="submit">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</form>
+</form>
+<form action="/restaurant/delete/<%= restaurant.id %>" method="POST">
+    <button class="button is-danger" type="submit">Delete</button>
+</form>
+
+<script>
+    var HKIsland = ["IFC Mall", "Pacific Place", "Times Square"];
+    var Kowloon = ["Elements", "Harbour City", "Festval Walk", "MegaBox", "APM"];
+    var NewTerriotries = ["New Town Plazza", "Tsuen Wan Plaza"]
+
+    function regionselected(region) {
+        //alert(region);
+
+        var mallElem = document.getElementById("mall");
+        mallElem.options.length = 0;
+        if (region == "HK Island") {
+
+            HKIsland.forEach(function (item) {
+                var option = document.createElement("option");
+                option.text = item;
+                option.value = item;
+                mallElem.add(option);
+            });
+
+            mallElem.disabled = false;
+
+        } else if (region == "Kowloon") {
+
+            Kowloon.forEach(function (item) {
+                var option = document.createElement("option");
+                option.text = item;
+                option.value = item;
+                mallElem.add(option);
+            });
+
+            mallElem.disabled = false;
+
+        } else if (region == "New Territories") {
+            NewTerriotries.forEach(function (item) {
+                var option = document.createElement("option");
+                option.text = item;
+                option.value = item;
+                mallElem.add(option);
+            });
+
+            mallElem.disabled = false;
+
+        } else {
+            mallElem.disabled = false;
+        }
+    }
+</script>

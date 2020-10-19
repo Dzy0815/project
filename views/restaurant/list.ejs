@@ -1,0 +1,27 @@
+<!--index.ejs-->
+<table class="table is-bordered is-striped is-hoverable is-fullwidth">
+    <style>
+        .title{
+            font-weight: bolder;
+            font-size: medium;
+        }
+    </style>
+
+    <h1 style="font-size: larger; font-weight: bolder;">Q-Pon</h1>
+
+    <h6>Redeem your coins for dining conpuns</h6>
+    <br><br><br><br>
+    <tr class="title">
+        <td>ID</td>
+        <td>Title</td>
+        <td>restaurant</td>
+        <td></td>
+    </tr>
+    <% restaurant.forEach( function(restaurant) { %>
+        
+    
+        <tr><td><%= restaurant.id %></td><td><%= restaurant.title %></td><td><%= restaurant.restaurant %></td><td><a href="/restaurant/update/<%= restaurant.id %>">update</a></td></tr>
+    
+    <% }); %>
+
+</table>
