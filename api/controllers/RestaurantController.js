@@ -8,6 +8,9 @@
 
 
 
+
+
+
 module.exports = {
     // action - create
     create: async function (req, res) {
@@ -66,26 +69,64 @@ module.exports = {
     },
 
     searchRegion: async function (req, res) {
-    
-        
+
+
         var thoseHKIslandRestaurants = await Restaurant.find({
-            where: {region : 'HK Island'},
-            sort: 'updatedAt',limit:2
+            where: { region: 'HK Island' },
+            sort: 'updatedAt', limit: 2
         });
 
         var thoseKowloonRestaurants = await Restaurant.find({
-            where: {region : 'Kowloon'},
-            sort: 'updatedAt',limit:2
+            where: { region: 'Kowloon' },
+            sort: 'updatedAt', limit: 2
         });
 
         var thoseNewTerritoriesRestaurants = await Restaurant.find({
-            where: {region : 'New Territories'},
-            sort: 'updatedAt',limit:2
+            where: { region: 'New Territories' },
+            sort: 'updatedAt', limit: 2
         });
-        
-        return res.view('restaurant/homepage', { HKrestaurant: thoseHKIslandRestaurants , KLrestaurant: thoseKowloonRestaurants , NTrestaurant: thoseNewTerritoriesRestaurants });
+
+        return res.view('restaurant/homepage', { HKrestaurant: thoseHKIslandRestaurants, KLrestaurant: thoseKowloonRestaurants, NTrestaurant: thoseNewTerritoriesRestaurants });
     },
 
+    // action - read
+    read: async function (req, res) {
 
+        var thatRestaurant = await Restaurant.findOne(req.params.id);
+
+        if (!thatRestaurant) return res.notFound();
+
+        return res.view('restaurant/read', { restaurant: thatRestaurant });
+    },
+
+    // action - paginate
+    search: async function (req, res) {
+
+        var whereClause = {};
+
+        var region=req.query.region;
+        var date=req.query.expirarydate;
+        var prasedMaxCoins=parseInt(req.query.maxcoins);
+        var prasedMinCoins=parseInt(req.query.mincoins);
+
+        if (region !="region") whereClause.region = region;
+        if (!isNaN(prasedMaxCoins)) whereClause.coins = { '<=' : prasedMaxCoins};
+        if (!isNaN(prasedMinCoins)) whereClause.coins = { '>=' :prasedMinCoins};
+        if (date !="not defined") whereClause.expirarydate <= date;
+
+
+        var limit = Math.max(req.query.limit, 2) || 2;
+        var offset = Math.max(req.query.offset, 0) || 0;
+
+        var somerestaurant = await Restaurant.find({
+            where: whereClause,
+            limit: limit,
+            skip: offset
+        });
+
+        var count = await Restaurant.count();
+
+        return res.view('restaurant/search', { restaurants: somerestaurant, numOfRecords: count , region:region, mincoins:prasedMinCoins, maxcoins:prasedMaxCoins, expirarydate:date});
+    },
 };
 

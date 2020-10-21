@@ -27,6 +27,8 @@ module.exports.routes = {
   'POST /restaurant/update/:id': 'RestaurantController.update',
   'POST /restaurant/delete/:id': 'RestaurantController.delete',
   'GET /restaurant/list': 'RestaurantController.list',
+  'GET /restaurant/read/:id': 'RestaurantController.read',
+  'GET /restaurant/search' : 'RestaurantController.search',
 
 
   /***************************************************************************

@@ -1,0 +1,30 @@
+<!--read.ejs-->
+
+<div class="columns">
+    <div class="column card is-two-thirds column">
+        <img src="<%= restaurant.image%>">
+    </div>
+    <div class=" column card is-one-thirds column">
+        <ul>
+            <li>
+                <%= restaurant.restaurant %>
+            </li>
+            <li>
+                <%= restaurant.title %>
+            </li>
+            <li>
+                Coins:<%= restaurant.coins%>
+            </li>
+            <li>
+                Address:<%= restaurant.region%>,<%= restaurant.mall%>
+            </li>
+            <li>
+                Expiry date:<%= restaurant.expiarydate%>
+            </li>
+            <li>
+                <%= restaurant.details %>
+            </li>
+        </ul>
+    </div>
+
+</div>
