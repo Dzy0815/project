@@ -18,5 +18,11 @@ module.exports.policies = {
   ***************************************************************************/
 
   // '*': true,
+  PersonController: {
+    create: 'isAdmin',
+    delete:'isAdmin',
+    update:'isAdmin',
+
+  }
 
 };

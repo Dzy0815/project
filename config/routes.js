@@ -30,6 +30,10 @@ module.exports.routes = {
   'GET /restaurant/read/:id': 'RestaurantController.read',
   'GET /restaurant/search' : 'RestaurantController.search',
 
+  'GET /user': 'UserController.login',
+'GET /user/login': 'UserController.login',
+'POST /user/login': 'UserController.login',
+
 
   /***************************************************************************
   *                                                                          *
