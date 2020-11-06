@@ -19,7 +19,7 @@ module.exports = {
 
         var restaurant = await Restaurant.create(req.body).fetch();
 
-        return res.status(201).json({ id: restaurant.id });
+        return res.redirect("/");
     },
     // action - list
     list: async function (req, res) {
@@ -46,7 +46,7 @@ module.exports = {
 
             if (!updatedRestaurant) return res.notFound();
 
-            return res.ok();
+            return res.redirect("/restaurant/list");
         }
     },
 
@@ -57,7 +57,7 @@ module.exports = {
 
         if (!deletedRestaurant) return res.notFound();
 
-        return res.ok();
+        return res.redirect("/restaurant/list");
     },
 
     // json function

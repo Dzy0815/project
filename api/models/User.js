@@ -23,11 +23,14 @@ module.exports = {
     },
 
     usertype: {
-      type: "string"
+      type: "string",
+      isIn: ['admin', 'member', 'nomember'],
+      defaultsTo:'nomember'
     },
 
     coins: {
-      type: "number"
+      type: "number",
+      
     },
 
 

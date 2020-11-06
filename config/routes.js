@@ -19,7 +19,7 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'GET /': 'RestaurantController.searchRegion',
+  'GET /': 'RestaurantController.searchRegion',
 
   'GET /restaurant/create': 'RestaurantController.create',
   'POST /restaurant/create': 'RestaurantController.create',
@@ -28,11 +28,11 @@ module.exports.routes = {
   'POST /restaurant/delete/:id': 'RestaurantController.delete',
   'GET /restaurant/list': 'RestaurantController.list',
   'GET /restaurant/read/:id': 'RestaurantController.read',
-  'GET /restaurant/search' : 'RestaurantController.search',
+  'GET /restaurant/search': 'RestaurantController.search',
 
   'GET /user': 'UserController.login',
-'GET /user/login': 'UserController.login',
-'POST /user/login': 'UserController.login',
+  'GET /user/login': 'UserController.login',
+  'POST /user/login': 'UserController.login',
 
 
   /***************************************************************************

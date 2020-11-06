@@ -15,15 +15,10 @@ module.exports = {
     
         var user = await User.findOne({ username: req.body.username });
     
-        if (!user) {
-            alert("No such user")
-         return res.redirect("/user/login");
-        }
+        if (!user) return res.status(401).json("User not found");
     
-        if (user.password != req.body.password){ 
-            alert("Wrong password!")
-            return res.redirect("/user/login");
-        }
+        if (user.password != req.body.password) 
+            return res.status(401).json("Wrong Password");
     
         // Reuse existing session 
         if (!req.session.username) {
@@ -40,7 +35,7 @@ module.exports = {
             return res.json(user);
         });
     },
-  
+
 
 };
 
