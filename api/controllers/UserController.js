@@ -17,12 +17,15 @@ module.exports = {
     
         if (!user) return res.status(401).json("User not found");
     
-        if (user.password != req.body.password) 
-            return res.status(401).json("Wrong Password");
+        var match = await sails.bcrypt.compare(req.body.password, user.password);
+
+        if (!match) return res.status(401).json("Wrong Password");
     
         // Reuse existing session 
         if (!req.session.username) {
-            req.session.username = user.username; 
+            req.session.username = user.username;
+            req.session.usertype = user.usertype; 
+            req.session.coins= user.coins;    
             return res.json(user);
         }
         
@@ -31,10 +34,24 @@ module.exports = {
     
             if (err) return res.serverError(err);
     
-            req.session.username = user.username;   
+            req.session.username = user.username;
+            req.session.usertype = user.usertype;
+            req.session.coins= user.coins;    
             return res.json(user);
         });
     },
+
+    logout: async function (req, res) {
+
+        req.session.destroy(function (err) {
+        
+            if (err) return res.serverError(err);
+            
+            return res.redirect("/");        
+        });
+    },
+
+    
 
 
 };

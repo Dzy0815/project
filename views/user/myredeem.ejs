@@ -1,0 +1,90 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="https://bulma.io">
+            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        </a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu is-active">
+        <div class="navbar-start">
+            <a class="navbar-item">
+                Home
+            </a>
+
+            <a class="navbar-item" href="/restaurant/search" id="search">
+                Search
+            </a>
+
+            <a class="navbar-item" href="/restaurant/list" id="admin">
+                Admin
+            </a>
+
+            <a class="navbar-item" href="/restaurant/create" id="create">
+                Create
+            </a>
+
+            <a class="navbar-item" href="/user/redeem" id="redeem">
+                My redeemd restaurants
+            </a>
+        </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div id="welcomemessage">
+                    Hi, <%=username%>
+                </div>
+                <div class="buttons">
+
+                    <a href="/user/login" class="button is-light" id="login">
+                        Log in
+                    </a>
+                    <a href="/user/logout" class="button is-light" id="logout">
+                        Log out
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</nav>
+
+<h1 style="font-size: larger; font-weight: bolder;">Q-Pon</h1>
+
+<h6>Redeem your coins for dining conpuns</h6>
+
+
+<script>
+    function login() {
+        var loginbutton = document.getElementById("login");
+        var welcomemessage = document.getElementById("welcomemessage");
+        var logoutbutton = document.getElementById("logout");
+        var adminbutton = document.getElementById("admin");
+        var createbutton = document.getElementById("create");
+        var redeembutton = document.getElementById("redeem");
+        var username = "<%=username%>";
+        var usertype = "<%=usertype%>";
+        if (username.length != 0) {
+            loginbutton.style.display = "none";
+        } else {
+            welcomemessage.style.display = "none";
+            logoutbutton.style.display = "none";
+
+        }
+        if (usertype != "admin") {
+            adminbutton.style.display = "none";
+            createbutton.style.display = "none";
+        }
+        if (usertype != "member") {
+            redeembutton.style.display = "none";
+        }
+    }
+
+    login();
+</script>

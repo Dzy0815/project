@@ -25,12 +25,12 @@ module.exports = {
     usertype: {
       type: "string",
       isIn: ['admin', 'member', 'nomember'],
-      defaultsTo:'nomember'
+      defaultsTo: 'nomember'
     },
 
     coins: {
       type: "number",
-      
+
     },
 
 
@@ -42,6 +42,11 @@ module.exports = {
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
+
+    orders: {
+      collection: 'Restaurant',
+      via: 'reserves'
+    }
 
   },
 

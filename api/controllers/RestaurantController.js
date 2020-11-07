@@ -86,7 +86,10 @@ module.exports = {
             sort: 'updatedAt', limit: 2
         });
 
-        return res.view('restaurant/homepage', { HKrestaurant: thoseHKIslandRestaurants, KLrestaurant: thoseKowloonRestaurants, NTrestaurant: thoseNewTerritoriesRestaurants });
+        var username=req.session.username;
+        var usertype=req.session.usertype;
+
+        return res.view('restaurant/homepage', { HKrestaurant: thoseHKIslandRestaurants, KLrestaurant: thoseKowloonRestaurants, NTrestaurant: thoseNewTerritoriesRestaurants,username:username,usertype:usertype });
     },
 
     // action - read
@@ -127,6 +130,16 @@ module.exports = {
         var count = await Restaurant.count();
 
         return res.view('restaurant/search', { restaurants: somerestaurant, numOfRecords: count , region:region, mincoins:prasedMinCoins, maxcoins:prasedMaxCoins, expirarydate:date});
+    },
+
+    populate: async function (req, res) {
+
+        var restaurant = await Restaurant.findOne(req.params.id).populate("reserves");
+
+    
+        if (!restaurant) return res.redirect("/");
+    
+        return res.json(restaurant);
     },
 };
 

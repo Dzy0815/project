@@ -10,7 +10,8 @@ For more information, see:
   .navbar-item {
     text-emphasis: none;
   }
-  .restaurant{
+
+  .restaurant {
     font-size: larger;
     color: blue;
   }
@@ -61,33 +62,45 @@ For more information, see:
         Home
       </a>
 
-      <a class="navbar-item" href="/restaurant/search">
+      <a class="navbar-item" href="/restaurant/search" id="search">
         Search
       </a>
 
-      <a class="navbar-item" href="/restaurant/list">
+      <a class="navbar-item" href="/restaurant/list" id="admin">
         Admin
       </a>
 
-      <a class="navbar-item" href="/restaurant/create">
+      <a class="navbar-item" href="/restaurant/create" id="create">
         Create
+      </a>
+
+      <a class="navbar-item" href="/user/redeem" id="redeem">
+        My redeemd restaurants
       </a>
     </div>
 
     <div class="navbar-end">
       <div class="navbar-item">
-        <div class="buttons">
-          <a class="button is-primary">
-            <strong>Sign up</strong>
-          </a>
-          <a class="button is-light" href="/user/login">
-            Log in
-          </a>
+        <div id="welcomemessage">
+          Hi, <%=username%>
         </div>
+        <div class="buttons">
+         
+            <a href="/user/login" class="button is-light" id="login">
+              Log in
+            </a>
+            <a href="/user/logout" class="button is-light" id="logout">
+              Log out
+            </a>
+          
+        </div>
+        
       </div>
     </div>
   </div>
 </nav>
+
+
 
 <div class="columns">
   <div class="column card">
@@ -96,7 +109,7 @@ For more information, see:
     <div>
       <div>
         <a href=" /restaurant/read/<%= restaurant.id %>">
-        <img style="object-fit: contain;" src="<%= restaurant.image%>" /></a>
+          <img style="object-fit: contain;" src="<%= restaurant.image%>" /></a>
       </div>
       <div class="restaurant">
         <%= restaurant.restaurant %>
@@ -119,7 +132,7 @@ For more information, see:
     <div>
       <div>
         <a href=" /restaurant/read/<%= restaurant.id %>">
-        <img style="object-fit: contain;" src="<%= restaurant.image%>" /></a>
+          <img style="object-fit: contain;" src="<%= restaurant.image%>" /></a>
       </div>
       <div class="restaurant">
         <%= restaurant.restaurant %>
@@ -142,7 +155,7 @@ For more information, see:
     <div>
       <div>
         <a href=" /restaurant/read/<%= restaurant.id %>">
-        <img style="object-fit: contain;" src="<%= restaurant.image%>" /></a>
+          <img style="object-fit: contain;" src="<%= restaurant.image%>" /></a>
       </div>
       <div class="restaurant">
         <%= restaurant.restaurant %>
@@ -160,3 +173,32 @@ For more information, see:
 
   </div>
 </div>
+
+<script>
+  function login() {
+    var loginbutton = document.getElementById("login");
+    var welcomemessage=document.getElementById("welcomemessage");
+    var logoutbutton = document.getElementById("logout");
+    var adminbutton = document.getElementById("admin");
+    var createbutton = document.getElementById("create");
+    var redeembutton = document.getElementById("redeem");
+    var username="<%=username%>";
+    var usertype="<%=usertype%>";
+    if (username.length != 0) {
+      loginbutton.style.display = "none";
+    }else{
+      welcomemessage.style.display="none";
+      logoutbutton.style.display="none";
+    
+    }
+    if(usertype != "admin"){
+      adminbutton.style.display="none";
+      createbutton.style.display="none";
+    }
+    if(usertype !="member"){
+      redeembutton.style.display="none";
+    }
+  }
+
+  login();
+</script>
