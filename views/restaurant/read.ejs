@@ -25,6 +25,39 @@
                 <%= restaurant.details %>
             </li>
         </ul>
+        <br><br>
+        <button onclick="addRedeem('<%=restaurant.id%>','<%=user%>')" id="redeem">redeem</button>
     </div>
 
 </div>
+
+<script>
+    function redeem() {
+        
+            var redeemButton = document.getElementById("redeem");
+            var usertype = "<%=usertype%>";
+            var orders = "<%= restaurant.reserves%>";
+            if (orders.length > 0 ||  usertype != "member") {
+                redeemButton.style.display = "none";
+            }
+    }
+
+    redeem();
+
+    async function addRedeem(id,uid) {
+        console.log("haha");
+
+        var response = await fetch("/user/addredeem/" + id, {
+            method: "POST"
+        });
+
+        if (response.ok) {
+            var html = await response.text();
+            alert(html);
+            location.assign("/");
+        } else {
+            alert(response.status + ": " + response.statusText);
+        }
+
+    };
+</script>

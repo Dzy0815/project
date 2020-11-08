@@ -8,6 +8,8 @@
  * https://sailsjs.com/docs/concepts/policies
  */
 
+const UserController = require("../api/controllers/UserController");
+
 module.exports.policies = {
 
   /***************************************************************************
@@ -18,11 +20,15 @@ module.exports.policies = {
   ***************************************************************************/
 
   // '*': true,
-  PersonController: {
+  RestaurantController: {
     create: 'isAdmin',
     delete:'isAdmin',
     update:'isAdmin',
 
+  },
+
+  UserController:{
+    populate:'isMember'
   }
 
 };

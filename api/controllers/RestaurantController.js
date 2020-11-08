@@ -5,6 +5,10 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+const User = require("../models/User");
+
+
+
 
 
 
@@ -95,11 +99,13 @@ module.exports = {
     // action - read
     read: async function (req, res) {
 
-        var thatRestaurant = await Restaurant.findOne(req.params.id);
+        var thatRestaurant = await Restaurant.findOne(req.params.id).populate("reserves", {id:req.session.number});
+        var thatUser =req.session.number;
+        var thatUsertype = req.session.usertype;
 
-        if (!thatRestaurant) return res.notFound();
+        if (!thatRestaurant) return res.redirect("/");
 
-        return res.view('restaurant/read', { restaurant: thatRestaurant });
+        return res.view('restaurant/read', { restaurant: thatRestaurant , user : thatUser, usertype : thatUsertype});
     },
 
     // action - paginate
@@ -132,14 +138,6 @@ module.exports = {
         return res.view('restaurant/search', { restaurants: somerestaurant, numOfRecords: count , region:region, mincoins:prasedMinCoins, maxcoins:prasedMaxCoins, expirarydate:date});
     },
 
-    populate: async function (req, res) {
-
-        var restaurant = await Restaurant.findOne(req.params.id).populate("reserves");
-
     
-        if (!restaurant) return res.redirect("/");
-    
-        return res.json(restaurant);
-    },
 };
 

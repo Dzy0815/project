@@ -37,7 +37,7 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div id="welcomemessage">
-                    Hi, <%=username%>
+                    Hi, <%=user.username%>
                 </div>
                 <div class="buttons">
 
@@ -59,6 +59,43 @@
 
 <h6>Redeem your coins for dining conpuns</h6>
 
+<br><br><br>
+
+<div class="columns">
+    <div class="column card is-half column">
+        Redeemed Columns:
+    </div>
+    <div class="column card is-half column">
+        Current Balence: <%=user.coins%>
+    </div>
+</div>
+
+<div class="columns is-multiline">
+
+    <% restaurant.forEach(function (restaurant) {%>
+    <div class="column card is-one-third column">
+
+        <div>
+            <a href=" /restaurant/read/<%= restaurant.id %>">
+                <img style="object-fit: contain;" src="<%= restaurant.image%>" />
+            </a>
+        </div>
+        <div class="restaurant">
+            <%= restaurant.restaurant %>
+        </div>
+
+        <div class="Rtitle">
+            <%= restaurant.title %>
+        </div>
+        <br><br>
+        <div class="coins">
+            Expirary Date:<%= restaurant.expirarydate %>
+        </div>
+    </div>
+
+    <%});%>
+
+</div>
 
 <script>
     function login() {
@@ -68,8 +105,8 @@
         var adminbutton = document.getElementById("admin");
         var createbutton = document.getElementById("create");
         var redeembutton = document.getElementById("redeem");
-        var username = "<%=username%>";
-        var usertype = "<%=usertype%>";
+        var username = "<%=user.username%>";
+        var usertype = "<%=user.usertype%>";
         if (username.length != 0) {
             loginbutton.style.display = "none";
         } else {

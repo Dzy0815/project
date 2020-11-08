@@ -35,9 +35,8 @@ module.exports.routes = {
   'POST /user/login': 'UserController.login',
   'POST /user/logout': 'UserController.logout',
 
-  'GET /user/:id/orders': 'UserController.populate',
-  'GET /restaurant/:id/reserves': 'RestaurantController.populate',
-  'POST /user/:id/orders/add/:fk': 'UserController.add',
+  'GET /user/redeem': 'UserController.populate',
+  'POST /user/addredeem/:fk': 'UserController.add',
   'POST /user/:id/orders/remove/:fk': 'UserController.remove',
 
 
