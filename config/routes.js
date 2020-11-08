@@ -37,7 +37,7 @@ module.exports.routes = {
 
   'GET /user/redeem': 'UserController.populate',
   'POST /user/addredeem/:fk': 'UserController.add',
-  'POST /user/:id/orders/remove/:fk': 'UserController.remove',
+  'POST /user/delete/:fk': 'UserController.delete',
 
 
   /***************************************************************************

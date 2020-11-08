@@ -20,7 +20,7 @@
     <% restaurant.forEach( function(restaurant) { %>
         
     
-        <tr><td><%= restaurant.id %></td><td><%= restaurant.title %></td><td><%= restaurant.restaurant %></td><td><a href="/restaurant/update/<%= restaurant.id %>">update</a></td></tr>
+        <tr><td><%= restaurant.id %></td><td><%= restaurant.title %></td><td><%= restaurant.restaurant %></td><td><a href="/restaurant/update/<%= restaurant.id %>">update</a></td><td><a href="/restaurant/listorders/<%= restaurant.id>">Redeemed Members</a></td></tr>
     
     <% }); %>
 

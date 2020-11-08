@@ -1,34 +1,16 @@
 <!--search-->
 <div class="columns">
+    <div id="results">
 
-    <% restaurants.forEach( function(restaurant) { %>
-    <div class="column card is-one-thirds column">
-        <div>
-            <div>
-                <a href=" /restaurant/read/<%= restaurant.id %>">
-                    <img style="object-fit: contain;" src="<%= restaurant.image%>" /></a>
-            </div>
-            <div class="restaurant">
-                <%= restaurant.restaurant %>
-            </div>
 
-            <div class="Rtitle">
-                <%= restaurant.title %>
-            </div>
-            <br><br>
-            <div class="coins">
-                <%= restaurant.coins %>
-            </div>
-        </div>
     </div>
-    <% }); %>
 
     <div class="column card is-one-thirds column">
         <form action="/restaurant/search" method="GET">
             <div class="field">
                 <label class="label">Region</label>
                 <div class="select">
-                    <select id="region" name="region" >
+                    <select id="region" name="region">
                         <option value="region">region</option>
                         <option value="Kowloon">Kowloon</option>
                         <option value="HK Island">HK Island</option>
@@ -60,7 +42,7 @@
 
             <div class="field">
                 <div class="control">
-                    <button class="button is-link" type="submit">Submit</button>
+                    <button class="button is-link" onclick="startPage()">Submit</button>
                 </div>
             </div>
         </form>
@@ -96,7 +78,8 @@
 </nav>
 
 <script>
-    function setPagination() {
+    var numOfRecords = parseInt("<%= numOfRecords %>");
+    function setPagination(limit, offset) {
 
         var previousButton = document.getElementById("previousButton");
         var nextButton = document.getElementById("nextButton");
@@ -106,19 +89,16 @@
         var firstLink = document.getElementById("firstLink");
         var lastLink = document.getElementById("lastLink");
 
-        var numOfRecords = parseInt("<%= numOfRecords %>");
-        var limit = Math.max(parseInt("<%= req.query.limit %>"), 2) || 2;
-        var offset = Math.max(parseInt("<%= req.query.offset %>"), 0) || 0;
 
-        var baseUrl = "/restaurant/search?limit=" + limit + "region=<%= region %>&maxcoin=<%= maxcoins%>&mincoin=<%= mincoins %>&expirarydate=<%= expirarydate %>&offset=";
 
-        firstLink.href = baseUrl + 0;
-        previousButton.href = baseUrl + (offset - limit);
-        previousLink.href = baseUrl + (offset - limit);
-        currentLink.href = baseUrl + offset;
-        nextLink.href = baseUrl + (offset + limit);
-        nextButton.href = baseUrl + (offset + limit);
-        lastLink.href = baseUrl + (Math.ceil(numOfRecords / limit) - 1) * limit;
+
+        firstLink.onclick = function () { fetchPage(limit, 0) };
+        previousButton.onclick = function () { fetchPage(limit, offset - limit) };
+        previousLink.onclick = function () { fetchPage(limit, offset - limit) };
+        currentLink.onclick = function () { fetchPage(limit, offset) };
+        nextLink.onclick = function () { fetchPage(limit, offset + limit) };
+        nextButton.onclick = function () { fetchPage(limit, offset + limit) };
+        lastLink.onclick = function () { fetchPage(limit, (Math.ceil(numOfRecords / limit) - 1) * limit) };
 
         var currentPageNumber = Math.floor(offset / limit) + 1;
 
@@ -126,6 +106,15 @@
         currentLink.innerHTML = currentPageNumber;
         nextLink.innerHTML = currentPageNumber + 1;
         lastLink.innerHTML = Math.ceil(numOfRecords / limit);
+
+        if (offset < limit) {
+            previousButton.setAttribute("disabled", true);
+            previousButton.href = "";
+            previousLink.style.display = "none";
+        } else {
+            previousButton.removeAttribute("disabled");
+            previousLink.style.display = "block";
+        }
 
         if (offset < limit) {
             previousButton.setAttribute("disabled", true);
@@ -141,5 +130,58 @@
     }
 
     setPagination();
+    var region = "";
+    var maxcoins = 100000;
+    var mincoins = 0;
+    var expirarydate = "";
 
+
+    async function fetchPage(limit, offset) {
+        region = document.getElementsByName("region")[0].value;
+        maxcoins = document.getElementsByName("maxcoins")[0].value;
+        mincoins = document.getElementsByName("mincoins")[0].value;
+        expirarydate = document.getElementsByName("expirarydate")[0].value;
+
+
+        var response = await fetch("/restaurant/search?limit=" + limit + "region=" + region + "&maxcoin=" + maxcoins + "&mincoin=" + mincoins + "&expirarydate=" + expirarydate + "&offset=" + offset, {
+            method: "GET"
+        });
+
+        if (response.ok) {
+            var restaurants = await response.json();
+
+
+
+            var dynamicCode = '<div id="results">';
+
+
+
+            restaurants.forEach(function (restaurant) {
+                dynamicCode += '<div class="column card is-one-third column">';
+                dynamicCode += '<div><div><a href=" /restaurant/read/<%= ' + restaurant.id + '%>"><img style="object-fit: contain;" src="<%=';
+                dynamicCode += restaurant.image + '%>" /></a></div><div class="restaurant"> <%=';
+                dynamicCode += restaurant.restaurant + '%></div><div class="Rtitle"><%=';
+                dynamicCode += restaurant.title + ' %> </div><br><br><div class="coins"><%= ';
+                dynamicCode += restaurant.coins + ' %> </div></div></div>';
+            });
+
+            document.querySelector("results").innerHTML = dynamicCode + "</div>";
+
+            setPagination(limit, offset);
+
+        } else {
+            alert(response.status + ": " + response.statusText);
+        }
+
+
+    };
+    function startPage() {
+        region = document.getElementsByName("region")[0].value;
+        maxcoins = document.getElementsByName("maxcoins")[0].value;
+        mincoins = document.getElementsByName("mincoins")[0].value;
+        expirarydate = document.getElementsByName("expirarydate")[0].value;
+        fetchPage(2, 0);
+    };
+    fetchPage(2, 0);
+   
 </script>
