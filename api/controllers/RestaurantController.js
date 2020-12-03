@@ -29,7 +29,7 @@ module.exports = {
     list: async function (req, res) {
 
         var everyones = await Restaurant.find();
-
+        
         return res.view('restaurant/list', { restaurant: everyones });
     },
 
@@ -73,6 +73,10 @@ module.exports = {
     },
 
     searchRegion: async function (req, res) {
+        var restaurants = await Restaurant.find();
+        if(req.wantsJSON){
+            return res.json({ restaurants: restaurants });
+        }
 
 
         var thoseHKIslandRestaurants = await Restaurant.find({
@@ -111,34 +115,33 @@ module.exports = {
     // action - paginate
     search: async function (req, res) {
         var count = await Restaurant.count();
-        
+
+
+        var whereClause = {};
+
+        var region = req.query.region;
+        var date = req.query.expirarydate;
+        var prasedMaxCoins = parseInt(req.query.maxcoins);
+        var prasedMinCoins = parseInt(req.query.mincoins);
+
+
+
+        if (region != "region") whereClause.region = region;
+        if (!isNaN(prasedMaxCoins)) whereClause.coins = { '<=': prasedMaxCoins };
+        if (!isNaN(prasedMinCoins)) whereClause.coins = { '>=': prasedMinCoins };
+        if (date != "not defined") whereClause.expirarydate <= date;
+
+
+        var limit = Math.max(req.query.limit, 2) || 2;
+        var offset = Math.max(req.query.offset, 0) || 0;
+
+        var somerestaurant = await Restaurant.find({
+            where: whereClause,
+            limit: limit,
+            skip: offset
+        });
+
         if (res.wantsJSON) {
-            var whereClause = {};
-
-            var region = req.query.region;
-            var date = req.query.expirarydate;
-            var prasedMaxCoins = parseInt(req.query.maxcoins);
-            var prasedMinCoins = parseInt(req.query.mincoins);
-
-            
-
-            if (region != "region") whereClause.region = region;
-            if (!isNaN(prasedMaxCoins)) whereClause.coins = { '<=': prasedMaxCoins };
-            if (!isNaN(prasedMinCoins)) whereClause.coins = { '>=': prasedMinCoins };
-            if (date != "not defined") whereClause.expirarydate <= date;
-
-
-            var limit = Math.max(req.query.limit, 2) || 2;
-            var offset = Math.max(req.query.offset, 0) || 0;
-
-            var somerestaurant = await Restaurant.find({
-                where: whereClause,
-                limit: limit,
-                skip: offset
-            });
-
-            
-
             return res.json({ restaurants: somerestaurant, numOfRecords: count });
         } else {
             return res.view("restaurant/search", { numOfRecords: count });

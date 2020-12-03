@@ -59,6 +59,11 @@ module.exports = {
     },
 
     populate: async function (req, res) {
+        if(req.wantsJSON){
+            var restaurant = await User.findOne(req.session.number).populate("orders");
+
+            return res.json({restaurant:restaurant.orders});
+        }
 
         var restaurant = await User.findOne(req.session.number).populate("orders");
 

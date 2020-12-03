@@ -33,7 +33,7 @@ module.exports.bootstrap = async function () {
 
   await Restaurant.createEach([
     { expiarydate: "14-12-2020", title: "五折", restaurant: "元福", region: "HK Island", mall: "IFC Mall", image: "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1525574275,4149085703&fm=26&gp=0.jpg", quota: 12, coins: 25, expirarydate: "", details: "" },
-    { expiarydate: "23234", title: "sdc", restaurant: "sdfs", region: "Kowloon", mall: "Festval Walk", image: "asdaed", quota: 23, coins: 23, expirarydate: "", details: "" },
+    { expiarydate: "23234", title: "sdc", restaurant: "sdfs", region: "Kowloon", mall: "Festval Walk", image: "asdaed", quota: 23, coins: 320, expirarydate: "", details: "" },
     { expiarydate: "14-12-2020", "title": "八达通优惠", restaurant: "aab", region: "Kowloon", mall: "Festval Walk", image: "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1525574275,4149085703&fm=26&gp=0.jpg", quota: 12, coins: 25, expirarydate: "", details: "" },
     { expiarydate: "234", title: "sfsd", restaurant: "sdfstsa", region: "Kowloon", mall: "Harbour City", image: "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1525574275,4149085703&fm=26&gp=0.jpg", quota: 23, coins: 34, expirarydate: "", details: "" },
     

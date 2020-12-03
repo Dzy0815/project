@@ -1,4 +1,4 @@
-<!--search-->
+search
 <div class="columns">
     <div id="results">
 
@@ -42,7 +42,7 @@
 
             <div class="field">
                 <div class="control">
-                    <button class="button is-link" onclick="startPage()">Submit</button>
+                     <button class="button is-link" onclick="startPage()">Submit</button> 
                 </div>
             </div>
         </form>
@@ -92,13 +92,13 @@
 
 
 
-        firstLink.onclick = function () { fetchPage(limit, 0) };
-        previousButton.onclick = function () { fetchPage(limit, offset - limit) };
-        previousLink.onclick = function () { fetchPage(limit, offset - limit) };
-        currentLink.onclick = function () { fetchPage(limit, offset) };
-        nextLink.onclick = function () { fetchPage(limit, offset + limit) };
-        nextButton.onclick = function () { fetchPage(limit, offset + limit) };
-        lastLink.onclick = function () { fetchPage(limit, (Math.ceil(numOfRecords / limit) - 1) * limit) };
+        firstLink.onclick = function () { fetchPage(limit, 0); }
+        previousButton.onclick = function () { fetchPage(limit, (offset - limit)) ;}
+        previousLink.onclick = function () { fetchPage(limit, (offset - limit)); }
+        currentLink.onclick = function () { fetchPage(limit, offset); }
+        nextLink.onclick = function () { fetchPage(limit, (offset + limit)); }
+        nextButton.onclick = function () { fetchPage(limit, (offset + limit)); }
+        lastLink.onclick = function () { fetchPage(limit, (Math.ceil(numOfRecords / limit) - 1) * limit); }
 
         var currentPageNumber = Math.floor(offset / limit) + 1;
 
@@ -116,43 +116,35 @@
             previousLink.style.display = "block";
         }
 
-        if (offset < limit) {
-            previousButton.setAttribute("disabled", true);
-            previousButton.href = "";
-            previousLink.style.display = "none";
-        }
 
         if (offset + limit >= numOfRecords) {
             nextButton.setAttribute("disabled", true);
             nextButton.href = "";
             nextLink.style.display = "none";
+        }else {
+            nextButton.removeAttribute("disabled");
+            nextLink.style.display = "block";
         }
     }
 
     setPagination();
-    var region = "";
+    var region = '';
     var maxcoins = 100000;
     var mincoins = 0;
-    var expirarydate = "";
+    var expirarydate = '';
 
 
     async function fetchPage(limit, offset) {
-        region = document.getElementsByName("region")[0].value;
-        maxcoins = document.getElementsByName("maxcoins")[0].value;
-        mincoins = document.getElementsByName("mincoins")[0].value;
-        expirarydate = document.getElementsByName("expirarydate")[0].value;
 
 
-        var response = await fetch("/restaurant/search?limit=" + limit + "region=" + region + "&maxcoin=" + maxcoins + "&mincoin=" + mincoins + "&expirarydate=" + expirarydate + "&offset=" + offset, {
-            method: "GET"
-        });
+        var response = await fetch("/restaurant/search?limit=" + limit + "&region=" + region + "&maxcoin=" + maxcoins + "&mincoin=" + mincoins + "&expirarydate=" + expirarydate + "&offset=" + offset);
 
         if (response.ok) {
             var restaurants = await response.json();
 
 
 
-            var dynamicCode = '<div id="results">';
+            var dynamicCode = '<div class="columns" >';
 
 
 
@@ -165,7 +157,7 @@
                 dynamicCode += restaurant.coins + ' %> </div></div></div>';
             });
 
-            document.querySelector("results").innerHTML = dynamicCode + "</div>";
+            document.querySelector("#results").innerHTML = dynamicCode + "</div>";
 
             setPagination(limit, offset);
 
@@ -184,4 +176,5 @@
     };
     fetchPage(2, 0);
    
-</script>
+ </script>
+ 
